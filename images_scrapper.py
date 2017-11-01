@@ -1,9 +1,13 @@
 import requests
 from bs4 import BeautifulSoup
 
+MAIN_URL = 'https://magiccards.info/'
 SITEMAP_URL = 'https://magiccards.info/sitemap.html'
-EDITION = 'https://magiccards.info/akh/en.html'
+EDITION_TPL = 'https://magiccards.info/{}/en.html'
+CARD_TPL = 'https://magiccards.info/{}/en/{}.html'
 
+
+# TODO lists to tuples?
 
 def collect_all_editions(sitemap_url):
     editions_list = []
@@ -27,8 +31,20 @@ def collect_edition_cards_numbers(edition_url):
     return cards_numbers_list
 
 
+def cards_numbers_to_editions():
+    result = {}
+    editions = collect_all_editions(SITEMAP_URL)
+    for e in editions:
+        edition_url = EDITION_TPL.format(e)
+        edition_cards = collect_edition_cards_numbers(edition_url)
+        result.update({e: edition_cards})
+        # break # delete this after tests
+        print('{} edition complete'.format(e))
+    return result
+
+
 def main():
-    print(collect_edition_cards_numbers(EDITION))
+    print(cards_numbers_to_editions())
 
 
 main()
