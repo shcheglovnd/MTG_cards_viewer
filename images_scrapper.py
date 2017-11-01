@@ -38,13 +38,31 @@ def cards_numbers_to_editions():
         edition_url = EDITION_TPL.format(e)
         edition_cards = collect_edition_cards_numbers(edition_url)
         result.update({e: edition_cards})
-        # break # delete this after tests
         print('{} edition complete'.format(e))
+        break  # delete this after tests
     return result
 
 
+def get_images_urls():
+    urls = []
+    editions_cards = cards_numbers_to_editions()
+    for edition in editions_cards.keys():
+        for card_number in editions_cards[edition]:
+            card_image_url = CARD_TPL.format(edition, card_number)
+            urls.append(card_image_url)
+    return urls
+
+
+def images_urls_to_file():
+    urls_list = get_images_urls()
+    with open('urls.txt', 'w') as f:
+        for u in urls_list:
+            f.write(u + '\n')
+    print('Urls exported to file')
+
+
 def main():
-    print(cards_numbers_to_editions())
+    images_urls_to_file()
 
 
 main()
