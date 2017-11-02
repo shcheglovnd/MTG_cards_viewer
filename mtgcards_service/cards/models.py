@@ -6,6 +6,9 @@ class Card(models.Model):
     card_name = models.CharField(max_length=200)
     path = models.CharField(max_length=100)
 
+    def __str__(self):
+        return self.card_name
+
 
 class Purchases(models.Model):
     card = models.OneToOneField(Card, on_delete=models.CASCADE)
