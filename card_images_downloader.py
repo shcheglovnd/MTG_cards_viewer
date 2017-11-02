@@ -32,10 +32,21 @@ def download_file(url):
     print('{}/{} file {} downloaded'.format(counter, files_count, image_path))
 
 
+def check_downloaded_images(urls):
+    for url in urls:
+        image_path = url.split('info')[1]
+        local_path = 'images' + image_path
+        if not os.path.isfile(local_path):
+            print('File {} not exists'.format(image_path))
+    print('Checking ends')
+
+
 def download_cards_images():
     urls = get_cards_urls_from_json('cards.json')
+    print(len(urls))
     executor = ThreadPoolExecutor(max_workers=10)
     executor.map(download_file, urls)
+    check_downloaded_images(urls)
 
 
 def main():
