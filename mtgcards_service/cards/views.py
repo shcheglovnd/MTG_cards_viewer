@@ -1,5 +1,22 @@
 from django.http import HttpResponse
+from django.template import loader
+
+from .models import Card
 
 
 def index(request):
-    return HttpResponse("Hello, world. You're at the cards index.")
+    all_cards_list = Card.objects.all()
+    template = loader.get_template('cards/index.html')
+    context = {
+        'all_cards_list': all_cards_list,
+    }
+    return HttpResponse(template.render(context, request))
+
+
+def search(request, query):
+    found_card = Card.objects.filter(card_name=query).first()
+    template = loader.get_template('cards/search.html')
+    context = {
+        'card': found_card,
+    }
+    return HttpResponse(template.render(context, request))

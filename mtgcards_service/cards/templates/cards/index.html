@@ -1,0 +1,9 @@
+{% if all_cards_list %}
+    <ul>
+    {% for card in all_cards_list %}
+        <li><a href="{% url 'index' card.id %}">{{ card.card_name }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No cards are available.</p>
+{% endif %}
