@@ -25,7 +25,11 @@ def search(request):
     name = request.GET.get('name')
     found_card = Card.objects.filter(card_name=name).first()
     template = loader.get_template('cards/result.html')
+    if found_card:
+        found_card.path = 'cards/images' + found_card.path
     context = {
         'card': found_card,
     }
     return HttpResponse(template.render(context, request))
+
+
