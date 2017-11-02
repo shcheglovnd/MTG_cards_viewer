@@ -5,8 +5,16 @@ from .models import Card
 
 
 def index(request):
+    template = loader.get_template('cards/search_block.html')
+    context = {
+        'user': 'user',
+    }
+    return HttpResponse(template.render(context, request))
+
+
+def list_all(request):
     all_cards_list = Card.objects.all()
-    template = loader.get_template('cards/index.html')
+    template = loader.get_template('cards/list.html')
     context = {
         'all_cards_list': all_cards_list,
     }
@@ -16,7 +24,7 @@ def index(request):
 def search(request):
     name = request.GET.get('name')
     found_card = Card.objects.filter(card_name=name).first()
-    template = loader.get_template('cards/search.html')
+    template = loader.get_template('cards/result.html')
     context = {
         'card': found_card,
     }
