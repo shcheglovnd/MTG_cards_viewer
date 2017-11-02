@@ -13,8 +13,9 @@ def index(request):
     return HttpResponse(template.render(context, request))
 
 
-def search(request, query):
-    found_card = Card.objects.filter(card_name=query).first()
+def search(request):
+    name = request.GET.get('name')
+    found_card = Card.objects.filter(card_name=name).first()
     template = loader.get_template('cards/search.html')
     context = {
         'card': found_card,
