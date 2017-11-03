@@ -20,7 +20,7 @@ def get_cards_urls_from_json(input_json_file):
 
 def download_file(url):
     image_path = url.split('info')[1]
-    local_path = 'images' + image_path
+    local_path = 'cards/static/cards/images' + image_path
     os.makedirs(os.path.dirname(local_path), exist_ok=True)
     r = requests.get(url, stream=True)
     with open(local_path, 'wb') as f:
