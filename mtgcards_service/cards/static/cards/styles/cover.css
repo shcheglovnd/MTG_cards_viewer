@@ -117,6 +117,9 @@ body {
   margin: 50px auto;
 }
 
+.cover .mtg_card {
+  max-width: 100%;
+}
 
 /*
  * Footer
