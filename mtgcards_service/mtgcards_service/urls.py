@@ -1,4 +1,3 @@
-
 """mtgcards_service URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
@@ -20,4 +19,5 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^cards/', include('cards.urls')),
     url(r'^admin/', admin.site.urls),
+    url(r'^', include('cards.urls')),
 ]
