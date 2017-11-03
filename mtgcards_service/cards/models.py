@@ -5,9 +5,6 @@ from django.contrib.auth.models import User
 class Card(models.Model):
     name = models.CharField(max_length=200)
     local_path = models.CharField(max_length=100)
-    original_path = models.CharField(max_length=100)
-    edition = models.CharField(max_length=10)
-    number_in_edition = models.CharField(max_length=5)
 
     def __str__(self):
         return self.name
