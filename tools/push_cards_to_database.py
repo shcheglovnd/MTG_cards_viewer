@@ -15,15 +15,20 @@ def push():
     print(Card.objects.all())
     with open('../tools/cards.json', 'r') as f:
         cards = json.load(f)
+
     counter = 0
-    for c in cards:
+    size = len(cards)
+    for card in cards:
+        new_card = Card(
+            name=card['card_name'],
+            local_path=card['card_image_url'].split('info')[1],
+            original_path=card['card_image_url'],
+            edition=card['edition'],
+            number_in_edition=card['card_number']
+        )
+        new_card.save()
         counter += 1
-        if counter > 10:
-            break
-        card_name = c['card_name']
-        path = c['card_image_url'].split('info')[1]
-        card = Card(card_name=card_name, path=path)
-        card.save()
+        print('{}/{} card pushed'.format(counter, size))
 
 
 if __name__ == '__main__':
