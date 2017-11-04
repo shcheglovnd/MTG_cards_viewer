@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 from tools.card_images_downloader import download_file
 from django.http import HttpResponse
 from django.template import loader
+from django.contrib.auth.decorators import login_required
 
 from .models import Card
 
@@ -27,6 +28,7 @@ def list_all(request):
     return HttpResponse(template.render(context, request))
 
 
+@login_required(login_url='/login/')
 def search(request):
     result_card_name = ''
     result_card_local_path = ''

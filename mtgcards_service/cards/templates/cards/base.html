@@ -2,7 +2,7 @@
 
 <!doctype html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
@@ -15,48 +15,63 @@
 
     <!-- Custom styles for this template -->
     <link href="{% static 'cards/styles/cover.css' %}" rel="stylesheet">
-  </head>
+</head>
 
-  <body>
+<body>
 
-    <div class="site-wrapper">
+<div class="site-wrapper">
 
-      <div class="site-wrapper-inner">
+    <div class="site-wrapper-inner">
 
         <div class="cover-container">
 
-          <header class="masthead clearfix">
-            <div class="inner">
-                <h3 class="masthead-brand"><a href="/cards">Magic: the Gathering</a></h3>
-              <nav class="nav nav-masthead">
-                <a class="nav-link" href="/cards">Home</a>
-                <a class="nav-link" href="/admin">Admin</a>
-                <a class="nav-link" href="#">Imports</a>
-              </nav>
-            </div>
-          </header>
+            <header class="masthead clearfix">
+                <div class="inner">
+                    <h3 class="masthead-brand"><a href="/">Magic: the Gathering</a></h3>
+                    <nav class="nav nav-masthead">
+                        <a class="nav-link" href="/">Home</a>
+                        <a class="nav-link" href="/admin">Admin</a>
+                        {% if request.user.is_authenticated %}
+                            <div class="dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button"
+                                   id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                                   aria-expanded="false">
+                                    {{ request.user.username }}
+                                </a>
 
-          <main role="main" class="inner cover">
-            {% block content %}
-            {% endblock %}
-          </main>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                    <a class="dropdown-item" href="/logout">Logout</a>
+                                </div>
+                            </div>
+                        {% else %}
+                            <a class="nav-link" href="/login">Login</a>
+                        {% endif %}
+                    </nav>
+                </div>
+            </header>
 
-          <footer class="mastfoot">
-            <div class="inner">
-              <p>by <a href="https://github.com/nickshch/">@nickshch</a>.</p>
-            </div>
-          </footer>
+            <main role="main" class="inner cover">
+                {% block content %}
+                {% endblock %}
+            </main>
+
+            <footer class="mastfoot">
+                <div class="inner">
+                    <p>by <a href="https://github.com/nickshch/">@nickshch</a>.</p>
+                </div>
+            </footer>
 
         </div>
 
-      </div>
-
     </div>
 
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="{% static 'cards/js/jquery-3.2.1.min.js' %}"></script>
-    <script src="{% static 'cards/js/bootstrap.min.js' %}"></script>
-  </body>
+</div>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="{% static 'cards/js/jquery-3.2.1.min.js' %}"></script>
+<script src="{% static 'cards/js/popper.js' %}"></script>
+<script src="{% static 'cards/js/bootstrap.min.js' %}"></script>
+</body>
 </html>

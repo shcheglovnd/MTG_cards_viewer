@@ -87,6 +87,10 @@ body {
   margin-left: 1rem;
 }
 
+.nav-masthead .dropdown {
+  margin-left: 1rem;
+}
+
 .nav-masthead .active {
   color: #fff;
   border-bottom-color: #fff;
@@ -119,6 +123,10 @@ body {
 
 .cover .mtg_card {
   max-width: 100%;
+}
+
+.cover .form-group {
+  text-align: left;
 }
 
 /*
