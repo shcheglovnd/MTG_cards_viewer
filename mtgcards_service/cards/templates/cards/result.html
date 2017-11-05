@@ -7,7 +7,7 @@
         {% if is_card_found %}
             <h2 class="cover-heading">We found this card for you.</h2>
             <br>
-            <img class="mtg_card" src="{% static card.local_path %}" alt="Card image"/>
+            <img class="mtg_card" src="{{ card.local_path }}" alt="Card image"/>
         {% else %}
             <h1>No card found with name "{{ searching_name }}".</h1>
         {% endif %}

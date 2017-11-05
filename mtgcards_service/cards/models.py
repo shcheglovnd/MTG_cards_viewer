@@ -15,6 +15,7 @@ class Card(models.Model):
 class Purchases(models.Model):
     query = models.CharField(max_length=200)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    card_local_path = models.CharField(max_length=100)
 
     def __str__(self):
         return str(self.user) + ' - ' + str(self.query)

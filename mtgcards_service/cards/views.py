@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 from tools.card_images_downloader import download_static_image_file
 from django.http import HttpResponse
 from django.template import loader
+from django.shortcuts import get_list_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 
@@ -54,18 +55,36 @@ def search(request):
                     else:
                         save_card_to_local_db(result_card_name, result_card_local_path)
         if not is_user_made_query(searching_name):
-            save_user_query(searching_name, request.user)
+            save_user_query(searching_name, request.user, result_card_local_path)
             dec_user_money(request.user.id, SEARCH_PRICE)
             request.user.profile.money -= SEARCH_PRICE
 
     template = loader.get_template('cards/result.html')
     context = {
-        'card': {'name': result_card_name, 'local_path': 'cards/images' + result_card_local_path},
+        'card': {'name': result_card_name, 'local_path': 'images' + result_card_local_path},
         'searching_name': searching_name,
         'is_card_found': is_card_found,
         'is_money_enough': is_money_enough,
     }
     return HttpResponse(template.render(context, request))
+
+
+@login_required(login_url='/login/')
+def show_image(request):
+    card_local_path = request.get_full_path().split('images')[1]
+    get_list_or_404(Purchases, user_id=request.user.id, card_local_path=card_local_path)
+    response = HttpResponse()
+    response.status_code = 200
+    response['X-Accel-Redirect'] = '/static/cards' + request.get_full_path()
+
+    del response['Content-Type']
+    del response['Content-Disposition']
+    del response['Accept-Ranges']
+    del response['Set-Cookie']
+    del response['Cache-Control']
+    del response['Expires']
+
+    return response
 
 
 def search_on_magic_cards_site(name):
@@ -105,8 +124,8 @@ def is_user_made_query(query):
         return False
 
 
-def save_user_query(query, user):
-    purchase = Purchases(query=query, user=user)
+def save_user_query(query, user, card_local_path):
+    purchase = Purchases(query=query, user=user, card_local_path=card_local_path)
     purchase.save()
 
 
