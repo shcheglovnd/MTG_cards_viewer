@@ -1,7 +1,48 @@
 Смотрелка карт Magic: the Gathering
 ===================================
 
-Нужен простой веб-сервис, в котором пользователь авторизуется, вводит название карт и получает их изображения за деньги.
+Простой веб-сервис, в котором пользователь авторизуется, вводит название карт и получает их изображения за деньги.
+
+Установка
+--------------------
+
+1. Устанавливаем зависимости
+```` shell
+$ pip install -r requirements.txt
+````
+2. Импортируем дамп базы данных
+```` shell
+$ mysql -u <username> -p<PlainPassword> mtgcards_db < <filename.sql>
+````
+3. Распаковываем архив с изображениями карт
+```` shell
+$ unrar x images.rar mtgcards_service/cards/static/cards
+````
+4. Запускаем сервер
+```` shell
+$ python mtgcards_service/manage.py runserver
+````
+5. Данные администратора
+````
+Login: admin
+Password: adminadmin
+````
+
+Как собрать свою базу
+--------------------
+
+Собираем данные о карточках с фанатского сайта, запустив следующий скрипт
+```` shell
+$ python mtgcards_service/tools/cards_info_scrapper.py
+````
+Затем скачиваем все изображения, найденные на фанатском сайте
+```` shell
+$ python mtgcards_service/tools/card_images_downloader.py
+````
+Загружаем данные о карточках в базу
+```` shell
+$ python mtgcards_service/tools/push_cards_to_database.py
+````
 
 Magic: the Gathering
 --------------------
