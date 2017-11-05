@@ -6,12 +6,13 @@ import sys
 sys.path.insert(0, os.path.abspath('../'))
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'mtgcards_service.settings')
 django.setup()
-
 from cards.models import Card
 
+DEFAULT_FILE_PATH = 'cards.json'
 
-def push():
-    with open('cards.json', 'r') as f:
+
+def push_from_json(json_file_path):
+    with open(json_file_path, 'r') as f:
         cards = json.load(f)
     counter = 0
     size = len(cards)
@@ -26,4 +27,9 @@ def push():
 
 
 if __name__ == '__main__':
-    push()
+    if len(sys.argv) == 1:
+        push_from_json(DEFAULT_FILE_PATH)
+    elif len(sys.argv) == 2:
+        push_from_json(sys.argv[1])
+    else:
+        sys.exit('You need to specify only file path as first argument')

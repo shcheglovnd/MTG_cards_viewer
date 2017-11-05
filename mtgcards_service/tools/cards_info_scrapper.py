@@ -1,11 +1,12 @@
 import json
 import requests
+import sys
 from bs4 import BeautifulSoup
 
 SITEMAP_URL = 'https://magiccards.info/sitemap.html'
 EDITION_URL_TPL = 'https://magiccards.info/{}/en.html'
 CARD_IMG_URL_TPL = 'https://magiccards.info/scans/en/{}/{}.jpg'
-
+DEFAULT_FILE_PATH = 'cards.json'
 
 def collect_all_editions():
     editions_list = []
@@ -49,18 +50,20 @@ def get_cards_list():
     return cards
 
 
-def cards_to_json_file():
+def cards_to_json_file(file_path):
     cards_list = get_cards_list()
-    with open('cards.json', 'w') as f:
+    with open(file_path, 'w') as f:
         f.write(json.dumps(cards_list, sort_keys=True, indent=4))
     print('Urls exported to file')
 
 
-def main():
-    cards_to_json_file()
-
-
 if __name__ == '__main__':
-    main()
+    if len(sys.argv) == 1:
+        cards_to_json_file(DEFAULT_FILE_PATH)
+    elif len(sys.argv) == 2:
+        cards_to_json_file(sys.argv[1])
+    else:
+        sys.exit('You need to specify only file path as first argument')
+
 
 

@@ -1,7 +1,7 @@
 import requests
 import urllib3
 from bs4 import BeautifulSoup
-from tools.card_images_downloader import download_file
+from tools.card_images_downloader import download_static_image_file
 from django.http import HttpResponse
 from django.template import loader
 from django.contrib.auth.decorators import login_required
@@ -31,7 +31,7 @@ def search(request):
     is_money_enough = request.user.profile.money >= SEARCH_PRICE
     searching_name = request.GET.get('name')
 
-    if is_money_enough or is_user_made_this_query(searching_name):
+    if is_money_enough or is_user_made_query(searching_name):
         card_from_local_db = Card.objects.filter(name=searching_name).first()
 
         if card_from_local_db:
@@ -48,12 +48,12 @@ def search(request):
                 if not is_card_in_local_db(result_card_name):
                     card_image_url = MAGIC_CARDS_SITE_URL + result_card_local_path
                     try:
-                        download_file(card_image_url)
+                        download_static_image_file(card_image_url)
                     except urllib3.exceptions.MaxRetryError:
                         print('Cant download card image')
                     else:
                         save_card_to_local_db(result_card_name, result_card_local_path)
-        if not is_user_made_this_query(searching_name):
+        if not is_user_made_query(searching_name):
             save_user_query(searching_name, request.user)
             dec_user_money(request.user.id, SEARCH_PRICE)
             request.user.profile.money -= SEARCH_PRICE
@@ -97,7 +97,7 @@ def dec_user_money(user_id, count):
     user.save()
 
 
-def is_user_made_this_query(query):
+def is_user_made_query(query):
     purchase = Purchases.objects.filter(query=query).first()
     if purchase:
         return True

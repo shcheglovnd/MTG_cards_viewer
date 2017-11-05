@@ -1,7 +1,10 @@
 import json
 import os
 import requests
+import sys
 from concurrent.futures import ThreadPoolExecutor
+
+DEFAULT_FILE_PATH = 'cards.json'
 
 counter = 0
 files_count = 0
@@ -18,7 +21,7 @@ def get_cards_urls_from_json(input_json_file):
     return urls
 
 
-def download_file(url):
+def download_static_image_file(url):
     image_path = url.split('info')[1]
     local_path = 'cards/static/cards/images' + image_path
     os.makedirs(os.path.dirname(local_path), exist_ok=True)
@@ -41,17 +44,18 @@ def check_downloaded_images(urls):
     print('Checking ends')
 
 
-def download_cards_images():
-    urls = get_cards_urls_from_json('cards.json')
+def download_cards_images(images_data):
+    urls = get_cards_urls_from_json(images_data)
     print(len(urls))
     executor = ThreadPoolExecutor(max_workers=10)
-    executor.map(download_file, urls)
+    executor.map(download_static_image_file, urls)
     check_downloaded_images(urls)
 
 
-def main():
-    download_cards_images()
-
-
 if __name__ == '__main__':
-    main()
+    if len(sys.argv) == 1:
+        download_cards_images(DEFAULT_FILE_PATH)
+    elif len(sys.argv) == 2:
+        download_cards_images(sys.argv[1])
+    else:
+        sys.exit('You need to specify only file path as first argument')
