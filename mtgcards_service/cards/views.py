@@ -22,15 +22,6 @@ def index(request):
     return HttpResponse(template.render(context, request))
 
 
-def list_all(request):
-    all_cards_list = Card.objects.all()
-    template = loader.get_template('cards/list.html')
-    context = {
-        'all_cards_list': all_cards_list,
-    }
-    return HttpResponse(template.render(context, request))
-
-
 @login_required(login_url='/login/')
 def search(request):
     result_card_name = ''
