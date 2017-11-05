@@ -18,9 +18,10 @@ $ mysql -u <username> -p<PlainPassword> mtgcards_db < <filename.sql>
 ```` shell
 $ unrar x images.rar mtgcards_service/cards/static/cards
 ````
-4. Запускаем сервер
+4. Настраиваем в конфигах пути к своим директориям и запускаем uwsgi и nginx
 ```` shell
-$ python mtgcards_service/manage.py runserver
+$ uwsgi configs/uwsgi.ini
+$ nginx -c configs/nginx.conf
 ````
 5. Данные администратора
 ````
