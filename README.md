@@ -14,8 +14,9 @@ $ pip install -r requirements.txt
 ```` shell
 $ mysql -u <username> -p<PlainPassword> mtgcards_db < <filename.sql>
 ````
-3. Распаковываем архив с изображениями карт
+3. Скачиваем и распаковываем архив с изображениями карт
 ```` shell
+$ wget "https://yadi.sk/d/nE9sdaKp3PSFZM" 
 $ unrar x images.rar mtgcards_service/cards/static/cards
 ````
 4. Настраиваем в конфигах пути к своим директориям и запускаем uwsgi и nginx
